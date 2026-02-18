@@ -1,21 +1,25 @@
 from random import randrange
+from typing import Optional
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.params import Body
 
 app = FastAPI()
 
+
+
+class Post(BaseModel):
+    title:str    
+    content:str
+    published: bool = True
+    rating: Optional[int] = None
+
+""" 
 class Item(BaseModel):
     name: str
     price: float
     is_offer: bool | None = None
 
-class Book(BaseModel):
-    title:str    
-    author:str
-    publication_year:int
-
-""" 
 
 @app.get('/')
 def read_root():
@@ -34,11 +38,24 @@ def update_item(item_id:int, item:Item):
 
 """
 
+my_posts = [
+    {
+        "title": "title of post 1",
+        "content": "content of post 1",
+        "id": 1
+    },
+    {
+        "title": "Favorite foods",
+        "content": "I like pizza and pasta",
+        "id": 2
+    },
+]
+
 
 
 @app.get("/posts")
 def get_post():
-    return{"data":"This is your post"}
+    return{"data": my_posts}
 
 
 @app.post('/posts')
@@ -53,6 +70,53 @@ def create_posts(post: Post):
 def post_book(book1: dict = Body(...)):
     print(book1)
     return{"new_book": f"{book1}"}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #Valid usage
