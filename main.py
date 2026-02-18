@@ -1,3 +1,4 @@
+from random import randrange
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.params import Body
@@ -14,6 +15,7 @@ class Book(BaseModel):
     author:str
     publication_year:int
 
+""" 
 
 @app.get('/')
 def read_root():
@@ -30,17 +32,21 @@ def update_item(item_id:int, item:Item):
     return{"item_id": item.name, "item_id":item.price,  "item_id":item_id}
 
 
+"""
+
+
 
 @app.get("/posts")
 def get_post():
     return{"data":"This is your post"}
 
 
-@app.post('/createposts')
-def create_post(payload: dict = Body(...)):
-    print(payload)
-    return{"new_post" : f" title: {payload['title']}, content: {payload['content']}"}
-
+@app.post('/posts')
+def create_posts(post: Post):
+    post_dict = post.dict()
+    post_dict['id'] = randrange(0, 1000000)
+    my_posts.append(post_dict)
+    return{"data": post_dict}
 
 
 @app.post("/booker")
