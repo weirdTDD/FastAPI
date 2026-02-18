@@ -66,10 +66,13 @@ def create_posts(post: Post):
     return{"data": post_dict}
 
 
-@app.post("/booker")
-def post_book(book1: dict = Body(...)):
-    print(book1)
-    return{"new_book": f"{book1}"}
+@app.get("/posts/{id}")
+def get_post(id: int):
+    for post in my_posts:
+        if post['id'] == id:
+            return{"post_details": post}
+
+
 
 
 
