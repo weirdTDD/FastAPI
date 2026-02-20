@@ -1,6 +1,6 @@
 from random import randrange
 from typing import Optional
-from fastapi import FastAPI
+from fastapi import FastAPI,HTTPException, status
 from pydantic import BaseModel
 from fastapi.params import Body
 
@@ -49,6 +49,13 @@ my_posts = [
         "content": "I like pizza and pasta",
         "id": 2
     },
+    {
+      "title": "Favorite game",
+      "content": "I like puzzles and COD",
+      "published": True,
+      "rating": 3,
+      "id": 203906
+    }
 ]
 
 
@@ -58,7 +65,7 @@ def get_post():
     return{"data": my_posts}
 
 
-@app.post('/posts')
+@app.post('/posts', status_code=status.HTTP_201_CREATED)
 def create_posts(post: Post):
     post_dict = post.dict()
     post_dict['id'] = randrange(0, 1000000)
@@ -71,6 +78,11 @@ def get_post(id: int):
     for post in my_posts:
         if post['id'] == id:
             return{"post_details": post}
+        
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, 
+            detail= f"Post with id: {id} not found"
+        )
 
 
 
