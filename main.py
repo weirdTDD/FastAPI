@@ -80,11 +80,11 @@ def get_post(id: int):
     for post in my_posts:
         if post['id'] == id:
             return{"post_details": post}
-        
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, 
-            detail= f"Post with id: {id} not found"
-        )
+
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND, 
+        detail= f"Post with id: {id} not found"
+    )
     
 
 #delete Poost
@@ -95,10 +95,10 @@ def delete_post(id: int):
             my_posts.pop(index)
             return Response(status_code=status.HTTP_204_NO_CONTENT)            
 
-        raise HTTPException(
+    raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
         detail=f"Post with id: {id} does not exist"
-        )
+    )
 
 
 
